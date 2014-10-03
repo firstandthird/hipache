@@ -37,6 +37,11 @@ if (!configFile) {
 util.log('Loading config from ' + configFile);
 var config = JSON.parse(fs.readFileSync(configFile));
 
+//allow driver to be passed in
+if (process.env.REDIS_PORT_6379_TCP_ADDR && process.end.REDIS_PORT_6379_TCP_PORT) {
+    config.driver = ['redis://'+process.env.REDIS_PORT_6379_TCP_ADDR+':'+process.end.REDIS_PORT_6379_TCP_PORT];
+}
+
 if (cluster.isMaster) {
     // Run the master
     var m = master(config);
